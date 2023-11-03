@@ -121,8 +121,9 @@
                 </StackLayout>
 
                 <StackLayout Padding="10" Grid.Row="12" Grid.ColumnSpan="4">
-                    <Label x:Name="reservationCodeLabel" FontSize="15" HorizontalOptions="CenterAndExpand" WidthRequest="1000"></Label>
-                    <Label x:Name="madeReservationLabel" FontSize="15" HorizontalOptions="CenterAndExpand" WidthRequest="1000"></Label>
+                    <Label x:Name="reservationCodeHolder" Text="Reservation Code:" FontSize="15" HorizontalOptions="CenterAndExpand" WidthRequest="1000"></Label>
+                    <Label x:Name="reservationCodeLabel"  FontSize="15" HorizontalOptions="CenterAndExpand" WidthRequest="1000"></Label>
+                    <Label x:Name="madeReservationLabel" FontSize="15" HorizontalOptions="Center" WidthRequest="1000"></Label>
 
                 </StackLayout>
                 

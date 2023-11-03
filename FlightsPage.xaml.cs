@@ -33,7 +33,7 @@ namespace Traveless
 		//Create a list of randomized reservation codes
 		public List<string> RandomizedReservationCode { get; set; }
 
-		public List<Reservation> AllReservations { get; set; }
+		public static List<Reservation> AllReservations { get; set; }
 
 
 		public string FlightsCSVFilePath
@@ -115,7 +115,7 @@ namespace Traveless
 
 			//RESERVATIONS
 			this.RandomizedReservationCode = new List<string>();
-			this.AllReservations = new List<Reservation>();
+			AllReservations = new List<Reservation>();
 
 
 			//Binds this context to xaml page
@@ -210,13 +210,14 @@ namespace Traveless
 			{
 				this.ShowAvailableFlights.Add(newFlight);
 			}
+
+
 		}
 
 
 
 		private void ClickFindFlights(object sender, EventArgs e)
 		{
-
 
 			//expected input values
 			string expectedDepartFromAny;
@@ -343,14 +344,9 @@ namespace Traveless
 
 			foreach (Flight flight in foundSelectedFlight)
 			{
-				if (flight != null)
-				{
-					this.ShowAvailableFlights.Add(flight);
-				}
-				else
-				{
-					this.ShowAvailableFlights = new ObservableCollection<Flight>(); // Clear the items
-				}
+				
+				this.ShowAvailableFlights.Add(flight);
+			
 			}
 
 
@@ -426,20 +422,22 @@ namespace Traveless
 
 			GenerateRandomCode();
 
-			// Display the generated reservation code in your UI
-			//if (RandomizedReservationCode.Count > 0)
-			//{
-			//	string reservationCode = RandomizedReservationCode[0]; // Assuming you want to display the first generated code
-			//	reservationCodeLabel.Text = "Reservation Code: " + reservationCode;
-			//}
+			//Display the generated reservation code in your UI
+			if (RandomizedReservationCode.Count > 0)
+			{
+				string reservationCode = RandomizedReservationCode[0]; // Assuming you want to display the first generated code
+				reservationCodeLabel.Text =  reservationCode;
 
-			// Display the generated reservation code in your UI
+			}
+
+			// Display the generated reservation code in UI
 
 			MakeReservation();
 			if (AllReservations.Count >0)
 			{
 				Reservation madeReservation = AllReservations[0]; // Get the latest reservation (assuming it's the first one in the list)
-				madeReservationLabel.Text = "Reservation details:" + madeReservation;
+				madeReservationLabel.Text = "Reservation details: " + madeReservation;
+
 			}
 
 
@@ -450,12 +448,13 @@ namespace Traveless
 		{
 			this.RandomizedReservationCode.Clear();
 
+			
 			Random random = new Random();
 
 			string charSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
-			int randomNumberCode = random.Next(1000, 10000);
+			int randomNumberCode = random.Next(1000, 9999);
 			int randomIndex = random.Next(0, charSet.Length);
 
 			char randomChar = charSet[randomIndex];
@@ -469,7 +468,7 @@ namespace Traveless
 		private void MakeReservation()
 		{
 			//Clear all reservations each time user refreshes page
-			this.AllReservations.Clear();
+			AllReservations.Clear();
 			
 			//User's inputs to make reservation: reservation code, name, citizenship and combine it with flight information
 			string reservationCode = reservationCodeLabel.Text;
@@ -490,21 +489,17 @@ namespace Traveless
 					reservation.Name = name;
 					reservation.Citizenship = citizenship;
 
-					this.AllReservations.Add(reservation);
+					AllReservations.Add(reservation);
 
 				}
+			
 
-				// Clear the input fields and reservation code label
-				addNameToReservation.Text = "";
-				addCitizenshipToReservation.Text = "";
+				// Clear the reservation code label
+
 				reservationCodeLabel.Text = "";
 
 			}
 		
-
-
-
-
 		}
 
 		// Method to get the selected flight based on the picker selection
@@ -518,6 +513,7 @@ namespace Traveless
 			}
 
 			return null; // Return null if no flight is selected
+
 		}
 
 	}
