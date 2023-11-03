@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Traveless.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Traveless"
+    Shell.FlyoutBehavior="Disabled">
+
+    <TabBar x:Name="MyTabBar">
+        <Tab Title="Home" >
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
+
+        </Tab>
+        <Tab Title="Flights" >
+            <ShellContent ContentTemplate="{DataTemplate local:FlightsPage}" Route="FlightsPage" />
+
+        </Tab>
+
+        <Tab Title="Reservations">
+            <ShellContent ContentTemplate="{DataTemplate local:ReservationPage}" Route="ReservationPage"></ShellContent>
+        </Tab>
+
+    </TabBar>
+
+    <!--<ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />-->
+
+</Shell>

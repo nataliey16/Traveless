@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Traveless.ReservationPage"
+             Title="Reservations">
+    
+
+        <ScrollView>
+
+            <VerticalStackLayout
+           
+            Padding="30,0"
+            VerticalOptions="Center">
+
+                <!--9 ROW/ 4 COLUMNS-->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+
+                    </Grid.ColumnDefinitions>
+
+
+                    <!--FIND FLIGHTS-->
+
+                    <StackLayout Padding="10" Grid.Row="0" Grid.ColumnSpan="4">
+                        <Label FontSize="Title" Margin="0,10,0,10" HorizontalOptions="Center">Reservation Finder</Label>
+                    </StackLayout>
+
+                    <StackLayout Padding="30,0" VerticalOptions="Center" Grid.Row="1" Grid.Column="0" HorizontalOptions="FillAndExpand">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="200" >Reservation Code:</Label>
+                        <Entry x:Name="findReservationCode" Placeholder="Reservation Code" WidthRequest="200"></Entry>
+                    </StackLayout>
+
+
+                    <StackLayout Padding="30,0" VerticalOptions="Center" Grid.Row="1" Grid.Column="1" HorizontalOptions="FillAndExpand" >
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="200" >Airline:</Label>
+                        <Entry x:Name="findReservationAirlineName" Placeholder="Airline" WidthRequest="200"></Entry>
+                    </StackLayout>
+
+
+                    <StackLayout Padding="30,0" VerticalOptions="Center" Grid.Row="1" Grid.Column="2" HorizontalOptions="FillAndExpand">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="200" >Name:</Label>
+                        <Entry x:Name="findReservationName" Placeholder="Name" WidthRequest="200"></Entry>
+                    </StackLayout>
+
+                    <StackLayout Padding="30,0" VerticalOptions="Center" Grid.Row="1" Grid.Column="3" HorizontalOptions="FillAndExpand" >
+                        <Button Text="Find Reservations"  Margin="20,0,20,0" WidthRequest="200" />
+                    </StackLayout>
+
+
+                    <!--FLIGHTS-->
+
+                    <StackLayout Padding="10" Grid.Row="2" Grid.ColumnSpan="4">
+                        <Picker x:Name="findAvailableReservationsPicker" Title="Reservations" Margin="0,10,0,10" WidthRequest="1000"  ItemsSource="{Binding ShowAvailableFlights}"  SelectedIndex="0"/>
+                    </StackLayout>
+
+
+                    <!--RESERVE-->
+
+                    <StackLayout Padding="10" Grid.Row="3" Grid.ColumnSpan="4">
+                        <Label FontSize="Title" Margin="0,10,0,10" HorizontalOptions="Center">Reserve</Label>
+
+                    </StackLayout>
+
+                    <StackLayout Padding="10" Grid.Row="4" Grid.ColumnSpan="4">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="1000">Flight Code:</Label>
+                        <Entry x:Name="selectedFlightCode" WidthRequest="1000" IsReadOnly ="True"></Entry>
+                    </StackLayout>
+
+                    <StackLayout Padding="10" Grid.Row="5" Grid.ColumnSpan="4">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="1000">Airline:</Label>
+                        <Entry x:Name="selectedAirlineName" WidthRequest="1000" IsReadOnly ="True"></Entry>
+                    </StackLayout>
+
+                    <StackLayout Padding="10" Grid.Row="6" Grid.ColumnSpan="4">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="1000">Day:</Label>
+                        <Entry x:Name="selectedFlightDay" IsReadOnly ="True" WidthRequest="1000"></Entry>
+                    </StackLayout>
+
+                    <StackLayout Padding="10" Grid.Row="7" Grid.ColumnSpan="4">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="1000">Time:</Label>
+                        <Entry x:Name="selectedFlightTime" IsReadOnly ="True" WidthRequest="1000"></Entry>
+                    </StackLayout>
+
+                    <StackLayout Padding="10" Grid.Row="8" Grid.ColumnSpan="4">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="1000">Cost:</Label>
+                        <Entry x:Name="selectedFlightCost" IsReadOnly ="True" WidthRequest="1000"></Entry>
+                    </StackLayout>
+
+                    <StackLayout Padding="10" Grid.Row="9" Grid.ColumnSpan="4">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="1000" >Name:</Label>
+                    <Entry x:Name="addNameToReservation" IsReadOnly ="True" WidthRequest="1000"></Entry>
+                    </StackLayout>
+
+                    <StackLayout Padding="10" Grid.Row="10" Grid.ColumnSpan="4">
+                        <Label FontSize="15" Margin="0,0,0,0" WidthRequest="1000">Citzenship:</Label>
+                    <Entry x:Name="addCitizenshipToReservation" IsReadOnly ="True" WidthRequest="1000"></Entry>
+                    </StackLayout>
+
+                    <StackLayout Padding="0,10,0,10" Grid.Row="11" Grid.ColumnSpan="4">
+                        <Label FontSize="15" Margin="0,10,0,10" WidthRequest="1000"></Label>
+                        <Button Text="Save reservation"  HorizontalOptions="Center" WidthRequest="200" />
+                    </StackLayout>
+
+                    <StackLayout Padding="10" Grid.Row="12" Grid.ColumnSpan="4">
+                        <Label x:Name="reservationCodeLabel" FontSize="15" HorizontalOptions="CenterAndExpand" WidthRequest="1000"></Label>
+
+                    </StackLayout>
+
+                </Grid>
+
+            </VerticalStackLayout>
+
+        </ScrollView>
+
+    
+</ContentPage>
