@@ -37,7 +37,6 @@ namespace Traveless
 		public static List<Reservation> AllReservations { get; set; }
 
 		//Prevent alert from appearing multiple times
-		private bool alertShown = false; // Initialize a flag
 
 
 		public string FlightsCSVFilePath
@@ -63,36 +62,6 @@ namespace Traveless
 
 		}
 
-		public string FlightsJSONFilePath
-		{
-			get
-			{
-				string jsonFlightsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data\\flights.json");
-
-				return jsonFlightsFilePath;
-			}
-
-		}
-
-		public string AirportJSONFilePath
-		{
-			get
-			{
-				string jsonAirportFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data\\airports.json");
-				return jsonAirportFilePath;
-			}
-		}
-
-
-
-		//public string ReservationJSONFilePath
-		//{
-		//	get
-		//	{
-		//		string jsonReservationFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data\\reservation.json");
-		//		return jsonReservationFilePath;
-		//	}
-		//}
 
 
 		public FlightsPage()
@@ -346,13 +315,7 @@ namespace Traveless
 				{
 					foundSelectedFlight.Add(newFlight);
 				}
-
-				if (!alertShown && !departFromMatches && !arriveToMatches && !weekDayAnyMatches)
-				{
-					DisplayAlert("Alert", "No matching flights found. Please try again.", "Ok");
-					alertShown = true; // Set the flag to prevent repeated alerts
-				}
-
+	
 
 				//Select any for depart, arrive, weekday
 				if (departFromAnyMatches && arriveToAnyMatches && weekDayAnyMatches)
@@ -362,6 +325,10 @@ namespace Traveless
 
 				
 			}
+
+
+
+
 
 			this.ShowAvailableFlights.Clear();
 
@@ -552,6 +519,8 @@ namespace Traveless
 			return null; // Return null if no flight is selected
 
 		}
+
+		
 
 	}
 }

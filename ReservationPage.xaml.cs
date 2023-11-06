@@ -46,6 +46,7 @@ namespace Traveless {
 			App.Current.MainPage.Window.Destroying += Window_Destroying;
 
 
+
 		}
 
 		//Method to find reservations
@@ -66,6 +67,7 @@ namespace Traveless {
 				else
 				{
 					expectedReservationCode = "";
+					DisplayAlert("Error", "The reservation field is empty or null. Please enter a valid reservation code", "Ok");
 				}
 
 				if (string.IsNullOrEmpty(this.findReservationName.Text) == false)
@@ -76,7 +78,7 @@ namespace Traveless {
 				{
 
 					expectedReservationName = "";
-					throw new InvalidNameException("Error");
+					DisplayAlert("Error", "The name field is empty or null. Please enter a name", "Ok");
 
 				}
 				if (string.IsNullOrEmpty(this.findReservationCitizenship.Text) == false)
@@ -86,6 +88,8 @@ namespace Traveless {
 				else
 				{
 					expectedReservationCitizenship = "";
+					DisplayAlert("Error", "The citizenship field is empty or null. Please enter a citizenship", "Ok");
+
 				}
 
 
@@ -143,6 +147,10 @@ namespace Traveless {
 					{
 						foundMadeReservations.Add(reservation);
 					}
+					else
+					{
+						DisplayAlert("Alert", "No matching reservation was found. Try again.", "Ok");
+					}
 				}
 
 				this.ShowAvailableReservations.Clear();
@@ -158,17 +166,24 @@ namespace Traveless {
 			}
 			catch (InvalidNameException ex)
 			{
-				DisplayAlert("InvalidNameException", ex.Message, "OK");
+				//DisplayAlert("InvalidNameException", ex.Message, "OK");
+
+				DisplayAlert("Error", ex.Message, "Ok");
+
 
 			}
 			catch (InvalidCitizenshipException ex)
 			{
-				DisplayAlert("InvalidCitizenshipException", ex.Message, "Ok");
+
+				DisplayAlert("Error", ex.Message, "Ok");
+
+				//DisplayAlert("InvalidCitizenshipException", ex.Message, "Ok");
 			}
 
 
-
 		}
+
+		
 
 		private void UpdatedSelectedReservationDetails(Reservation selectedReservation, Flight selectedFlight)
 		{
@@ -248,6 +263,8 @@ namespace Traveless {
 			// Save employees to file before app closes.
 			this.SaveReservationToJSONFile();
 		}
+
+	
 
 	}
 
