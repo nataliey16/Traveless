@@ -36,6 +36,9 @@ namespace Traveless
 
 		public static List<Reservation> AllReservations { get; set; }
 
+		//Prevent alert from appearing multiple times
+		private bool alertShown = false; // Initialize a flag
+
 
 		public string FlightsCSVFilePath
 		{
@@ -80,7 +83,6 @@ namespace Traveless
 			}
 		}
 
-		//string csvReservationFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data\\reservation.csv");
 
 
 		//public string ReservationJSONFilePath
@@ -151,7 +153,7 @@ namespace Traveless
 		}
 
 
-
+		//Create a method listing the airport codes from airport.csv
 		private void ListAirportCodes()
 		{
 			this.AirportCodes.Clear();
@@ -176,6 +178,8 @@ namespace Traveless
 
 		}
 
+
+		//List of week days to select flight day
 		private void ListDayOfFlight()
 		{
 
@@ -208,6 +212,7 @@ namespace Traveless
 
 
 
+		//Add event listener to find matching flights based on users inputs
 		private void ClickFindFlights(object sender, EventArgs e)
 		{
 
@@ -228,7 +233,7 @@ namespace Traveless
 			expectedArriveTo = (string)this.findToFlightsPicker.SelectedItem;
 			expectedWeekDay = (string)this.findWeekDayPicker.SelectedItem;
 
-
+			//By default the inputs are false
 			bool findFlightsWithDepartFromAny = false;
 			bool findFlightsWithArriveToAny = false;
 			bool findFlightsWithWeekDayAny = false;
@@ -238,6 +243,8 @@ namespace Traveless
 			bool findFlightsWithWeekDay = false;
 
 
+
+			//If user selects any departure, arrival, and week day
 			if (expectedDepartFromAny != "Any")
 			{
 				findFlightsWithDepartFromAny = true;
@@ -247,25 +254,40 @@ namespace Traveless
 			{
 				findFlightsWithArriveToAny = true;
 			}
+			
 			if (expectedWeekDayAny != "Any")
 			{
 				findFlightsWithWeekDayAny = true;
 			}
+			
+
+
 
 
 			if (expectedDepartFrom != null)
 			{
 				findFlightsWithDepartFromCode = true;
 			}
+			else
+			{
+				DisplayAlert("Error", "Please select departure location.", "Ok");
+			}
 			if (expectedArriveTo != null)
 			{
 				findFlightsWithArriveToCode = true;
+			}
+			else
+			{
+				DisplayAlert("Error", "Please select arrival location.", "Ok");
 			}
 			if (expectedWeekDay != null)
 			{
 				findFlightsWithWeekDay = true;
 			}
-
+			else
+			{
+				DisplayAlert("Error", "Please select day of flight.", "Ok");
+			}
 
 
 
@@ -325,11 +347,20 @@ namespace Traveless
 					foundSelectedFlight.Add(newFlight);
 				}
 
+				if (!alertShown && !departFromMatches && !arriveToMatches && !weekDayAnyMatches)
+				{
+					DisplayAlert("Alert", "No matching flights found. Please try again.", "Ok");
+					alertShown = true; // Set the flag to prevent repeated alerts
+				}
+
+
 				//Select any for depart, arrive, weekday
 				if (departFromAnyMatches && arriveToAnyMatches && weekDayAnyMatches)
 				{
 					foundSelectedFlight.Add(newFlight);
 				}
+
+				
 			}
 
 			this.ShowAvailableFlights.Clear();
@@ -385,34 +416,34 @@ namespace Traveless
 
 		//<!--RESERVATION METHODS-->
 
-		
+
 
 		private void ClickReservation(object sender, EventArgs e)
 		{
-
 			
-	
+
 				//Input values
 				string name;
 				string citizenship;
 
-		
+
+
 				if (string.IsNullOrEmpty(addNameToReservation.Text) == false)
 				{
 					name = addNameToReservation.Text;
 				}
-			
-			
+
+
 				else
 				{
-					DisplayAlert("Error", "The name field is empty. Please enter your name.", "Ok");
 
-					name = "";
+				DisplayAlert("Error", "The name field is empty. Please enter your name.", "Ok");
 
-					//throw new InvalidNameException("Name field is empty or null. Enter a value.");
+				name = "";
 
 				}
-			
+
+
 
 				if (string.IsNullOrEmpty(addCitizenshipToReservation.Text) == false)
 				{
@@ -424,7 +455,6 @@ namespace Traveless
 					DisplayAlert("Error", "The citizenship field is empty. Please enter your citizenship.", "Ok");
 
 					citizenship = "";
-					//throw new InvalidCitizenshipException("Citizenship field is empty or null. Enter a value.");
 
 				}
 
@@ -445,7 +475,7 @@ namespace Traveless
 
 				}
 			
-			
+
 
 		}
 
@@ -474,8 +504,7 @@ namespace Traveless
 		private void MakeReservation()
 		{
 
-			try
-			{
+			
 				//Clear all reservations each time user refreshes page
 				AllReservations.Clear();
 
@@ -502,22 +531,11 @@ namespace Traveless
 
 					}
 
+
 				}
-			}
-			catch (InvalidNameException ex)
-			{
-				DisplayAlert("Error", ex.Message, "Ok");
-			}
-			catch (InvalidCitizenshipException ex)
-			{
-				DisplayAlert("Error", ex.Message, "Ok");
-			}
-			catch (Exception ex)
-			{
-				// Handle other exceptions (if any)
-				DisplayAlert("Error", ex.Message, "Ok");
-			}
+			
 		}
+	
 
 
 

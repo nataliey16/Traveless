@@ -34,11 +34,6 @@ namespace Traveless {
 
 
 
-
-		//private string reservation_JSON_file = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data\\reservations.json");
-
-		//public List<Reservation> ListOfReservationsToJSON { get; set; }
-
 		public ReservationPage()
 		{
 			InitializeComponent();
@@ -51,13 +46,15 @@ namespace Traveless {
 			App.Current.MainPage.Window.Destroying += Window_Destroying;
 
 
-
-
 		}
 
+		//Method to find reservations
 		private void ClickFindReservations(object sender, EventArgs e)
 		{
-			
+
+			try
+			{
+
 				string expectedReservationCode;
 				string expectedReservationName;
 				string expectedReservationCitizenship;
@@ -77,7 +74,10 @@ namespace Traveless {
 				}
 				else
 				{
+
 					expectedReservationName = "";
+					throw new InvalidNameException("Error");
+
 				}
 				if (string.IsNullOrEmpty(this.findReservationCitizenship.Text) == false)
 				{
@@ -94,7 +94,7 @@ namespace Traveless {
 				bool findReservationWithCitizenship = false;
 
 
-
+				//Validate that all expected inputs are inputted 
 				if (expectedReservationCode.Length > 0)
 				{
 					findReservationWithCode = true;
@@ -109,7 +109,7 @@ namespace Traveless {
 				}
 
 
-				//ObservableCollection<Reservation> foundMadeReservations = new ObservableCollection<Reservation>();
+				//Create a list of found reservations that are made
 				List<Reservation> foundMadeReservations = new List<Reservation>();
 
 
@@ -124,6 +124,7 @@ namespace Traveless {
 					string actualReservationName = reservation.Name;
 					string actualReservationCitizenship = reservation.Citizenship;
 
+
 					if (findReservationWithCode && actualReservationCode != expectedReservationCode)
 					{
 						reservationCodeMatches = false;
@@ -137,6 +138,7 @@ namespace Traveless {
 						reservationCitizenshipMatches = false;
 					}
 
+					//If the reservation code, name and citizenship matches the list, add to the list
 					if (reservationCodeMatches && reservationNameMatches && reservationCitizenshipMatches)
 					{
 						foundMadeReservations.Add(reservation);
@@ -145,18 +147,32 @@ namespace Traveless {
 
 				this.ShowAvailableReservations.Clear();
 
+
+				//Go through each found reservation and add to show available list
 				foreach (Reservation reservation in foundMadeReservations)
 				{
 
 					this.ShowAvailableReservations.Add(reservation);
-
+				}
 
 			}
+			catch (InvalidNameException ex)
+			{
+				DisplayAlert("InvalidNameException", ex.Message, "OK");
+
+			}
+			catch (InvalidCitizenshipException ex)
+			{
+				DisplayAlert("InvalidCitizenshipException", ex.Message, "Ok");
+			}
+
+
 
 		}
 
 		private void UpdatedSelectedReservationDetails(Reservation selectedReservation, Flight selectedFlight)
 		{
+			//If selected reservations and flight are not null then bind them to xaml
 			if (selectedReservation != null && selectedFlight != null)
 			{
 				selectedReservationCode.Text = selectedReservation.ReservationCode;
@@ -171,6 +187,7 @@ namespace Traveless {
 				
 
 			}
+			//If they are null then keep them empty
 			else
 			{
 				selectedReservationCode.Text = "";
@@ -209,10 +226,13 @@ namespace Traveless {
 			// Create a list of JSON strings
 			List<string> jsonList = new List<string>();
 
+			//For each reservation in the show available list
 			foreach (Reservation reservation in this.ShowAvailableReservations)
 			{
+				//encode them into JSON objects
 				string jsonEncoded = JsonSerializer.Serialize(reservation);
 				jsonList.Add(jsonEncoded);
+				// add them to the jsonList
 			}
 
 			// Append the list of JSON strings to the file
@@ -224,7 +244,7 @@ namespace Traveless {
 		private void Window_Destroying(object sender, EventArgs e)
 		{
 
-			DisplayAlert("Update", "Your flight reservation is saved.", "Ok");
+			DisplayAlert("Update", "Your flight reservation has been saved.", "Ok");
 			// Save employees to file before app closes.
 			this.SaveReservationToJSONFile();
 		}

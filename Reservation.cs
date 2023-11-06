@@ -31,38 +31,20 @@ namespace Traveless
 		{
 			get;
 			set;
-			//get { return name; }
-			//set
-			//{
-			//	if (string.IsNullOrEmpty(value))
-			//	{
-			//		throw new InvalidNameException("Name field is empty or null. Please enter a value.");
-			//	}
-			//	name = value;
-			//}
+	
 		}
         
 
-              
-
+            
         public string Citizenship
         {
+		
 			get;
 			set;
-			//         get { return citizenship; }
-			//         set
-			//         {
-
-			//	if (string.IsNullOrEmpty(value))
-			//	{
-			//		throw new InvalidCitizenshipException("Citizenship field is empty or null. Please enter a value.");
-			//	}
-			//	name = value;
-
-			//}
+	
 		}
 
-	
+
 
 		//Constructors
 		public Reservation()
@@ -73,6 +55,16 @@ namespace Traveless
 
 		public Reservation(Flight flight, string reservationCode, string name, string citizenship)
 		{
+
+			if (string.IsNullOrEmpty(citizenship))
+			{
+				throw new InvalidCitizenshipException("Citizenship field is empty or null. Please enter a valid value.");
+			}
+
+			if(string.IsNullOrEmpty(name))
+			{
+				throw new InvalidNameException("Name field is empty or null. Please enter a valid value.");
+			}
 
 			this.ReservationCode = reservationCode;
 			this.Flight = flight;
