@@ -328,8 +328,6 @@ namespace Traveless
 
 
 
-
-
 			this.ShowAvailableFlights.Clear();
 
 			foreach (Flight flight in foundSelectedFlight)
@@ -338,7 +336,6 @@ namespace Traveless
 				this.ShowAvailableFlights.Add(flight);
 			
 			}
-
 
 		}
 
