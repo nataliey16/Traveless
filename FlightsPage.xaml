@@ -62,7 +62,7 @@
                 </StackLayout>
 
                 <StackLayout Padding="30,0" VerticalOptions="Center" Grid.Row="1" Grid.Column="3" HorizontalOptions="FillAndExpand" >
-                    <Button Text="Find Flights"  Margin="20,0,20,0" WidthRequest="200" Clicked="ClickFindFlights"/>
+                    <Button Text="Find Flights"  Margin="20,0,20,0" WidthRequest="200" Clicked="ClickFindFlights" />
                 </StackLayout>
 
 
@@ -121,10 +121,8 @@
                 </StackLayout>
 
                 <StackLayout Padding="10" Grid.Row="12" Grid.ColumnSpan="4">
-                    <Label x:Name="reservationCodeHolder" Text="Reservation Code:" FontSize="15" HorizontalOptions="CenterAndExpand" WidthRequest="1000"></Label>
-                    <Label x:Name="reservationCodeLabel"  FontSize="15" HorizontalOptions="CenterAndExpand" WidthRequest="1000"></Label>
-                    <Label x:Name="madeReservationLabel" FontSize="15" HorizontalOptions="Center" WidthRequest="1000"></Label>
-
+                    <Label x:Name="reservationCodeHolder" Text="Reservation Code:" FontSize="15" HorizontalOptions="CenterAndExpand"></Label>
+                    <Label x:Name="reservationCodeLabel"  FontSize="15" HorizontalOptions="CenterAndExpand"></Label>
                 </StackLayout>
                 
 

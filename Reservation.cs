@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Traveless
 {
     public class Reservation
     {
-     
+
+		//private string name;
+		//private string citizenship;
       
-        public string ReservationCode //The generated code
+        public string ReservationCode 
         {
             get;
             set;
@@ -23,42 +26,43 @@ namespace Traveless
 		}
 
 
-		//public string FlightCode // 
-		//{
-		//    get;
-		//    set;
-		//}
-
-		//public string AirlineName
-		//{
-		//    get;
-		//    set;
-		//}
-
-		//public string CostPerSeat
-		//{
-		//    get;
-		//    set;
-		//}
 
 		public string Name
-        {
-            get;
-            set;
-        }
-
-        public string Citizenship
-        {
-            get;
-            set;
-        }
-
-		public bool IsActive
 		{
 			get;
 			set;
+			//get { return name; }
+			//set
+			//{
+			//	if (string.IsNullOrEmpty(value))
+			//	{
+			//		throw new InvalidNameException("Name field is empty or null. Please enter a value.");
+			//	}
+			//	name = value;
+			//}
+		}
+        
+
+              
+
+        public string Citizenship
+        {
+			get;
+			set;
+			//         get { return citizenship; }
+			//         set
+			//         {
+
+			//	if (string.IsNullOrEmpty(value))
+			//	{
+			//		throw new InvalidCitizenshipException("Citizenship field is empty or null. Please enter a value.");
+			//	}
+			//	name = value;
+
+			//}
 		}
 
+	
 
 		//Constructors
 		public Reservation()
@@ -66,39 +70,20 @@ namespace Traveless
 
         }
 
-        //public Reservation(string reservationCode, string flightCode, string airlineName, string costPerSeat, string name, string citizenship, bool isActive)
-        //{
-          
-        //    this.ReservationCode = reservationCode;
-        //    this.FlightCode = flightCode;
-        //    this.AirlineName = airlineName;
-        //    this.CostPerSeat = costPerSeat;
-        //    this.Name = name;
-        //    this.Citizenship = citizenship;
-        //    this.IsActive = isActive;
-        //}
 
-		public Reservation(Flight flight, string reservationCode, string name, string citizenship, bool isActive)
+		public Reservation(Flight flight, string reservationCode, string name, string citizenship)
 		{
 
 			this.ReservationCode = reservationCode;
 			this.Flight = flight;
-			//this.FlightCode = flightCode;
-			//this.AirlineName = airlineName;
-			//this.CostPerSeat = costPerSeat;
 			this.Name = name;
 			this.Citizenship = citizenship;
-			this.IsActive = isActive;
+	
 		}
-
-		//public string GenerateReservationCode(Flight flight)
-		//{
-
-		//}
 
 		public override string ToString()
         {
-            return $"{ReservationCode}, {Flight}, {Name}, {Citizenship}, {IsActive}";
+            return $"{ReservationCode}, {Flight}, {Name}, {Citizenship}";
 		}
 	}
 }

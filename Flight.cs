@@ -8,17 +8,6 @@ namespace Traveless
 {
 	public class Flight
 	{
-		//Fields
-		//private string airlineCode;
-		//private string code;
-		//private decimal costPerSeat;
-		//private int flightNumber;
-		//private string departFrom;
-		//private bool isDomestic;
-		//private string arriveTo;
-		//private string time;
-		//private int totalSeats;
-		//private string weekDay;
 
 
 		//Properties
@@ -69,18 +58,6 @@ namespace Traveless
 			get;
 			set;
 		}
-		//public int FlightNumber
-		//{
-		//	get;
-		//}
-
-
-		//public bool IsDomestic
-		//{
-		//	get;
-		//}
-
-
 
 
 
@@ -92,9 +69,7 @@ namespace Traveless
 		{
 			this.FlightCode = flightCode;
 			this.AirlineName = airlineName;
-			//this.FlightNumber = flightNumber;
 			this.DepartFrom = departFrom;
-			//this.IsDomestic = isDomestic;
 			this.ArriveTo = arriveTo;
 			this.WeekDay = weekDay;
 			this.Time = time;

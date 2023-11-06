@@ -33,6 +33,7 @@ namespace Traveless
 		//Create a list of randomized reservation codes
 		public List<string> RandomizedReservationCode { get; set; }
 
+
 		public static List<Reservation> AllReservations { get; set; }
 
 
@@ -58,16 +59,6 @@ namespace Traveless
 
 
 		}
-
-		//public string ReservationCSVFilePath
-		//{
-		//	get
-		//	{
-		//		string csvReservationFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data\\reservation.csv");
-
-		//		return csvReservationFilePath;
-		//	}
-		//}	
 
 		public string FlightsJSONFilePath
 		{
@@ -127,7 +118,7 @@ namespace Traveless
 			UpdateFlights();
 
 			MakeReservation();
-			//GetReservations();
+			GenerateRandomCode();
 
 
 		}
@@ -151,9 +142,6 @@ namespace Traveless
 				string totalSeats = columns[6];
 				string costPerSeat = columns[7];
 
-				//string flightNumber = columns[3];
-				//string isDomestic = columns[5];
-				//flight = new Flight(FlightCode, AirlineFlight, FromFlight, ToFlight, DayOfFlight, TimeOfFlight, FlightQuantity, CostOfFLight);
 
 				Flight flight = new Flight(flightCode, airlineName, departFrom, arriveTo, weekDay, time, Convert.ToInt32(totalSeats), Convert.ToDecimal(costPerSeat));
 
@@ -168,27 +156,30 @@ namespace Traveless
 		{
 			this.AirportCodes.Clear();
 
-			string[] lines = File.ReadAllLines(this.AirportCSVFilePath);
+			
+				string[] lines = File.ReadAllLines(this.AirportCSVFilePath);
 
-			this.AirportCodes.Add("Any");
+				this.AirportCodes.Add("Any");
 
-			foreach (string line in lines)
-			{
-				string[] columns = line.Split(",");
-				if (columns.Length > 0)
+				foreach (string line in lines)
 				{
-					string airportCode = columns[0].Trim(); // Assuming the airport code is in the first column
-					this.AirportCodes.Add(airportCode);
-				}
+					string[] columns = line.Split(",");
+					if (columns.Length > 0)
+					{
+						string airportCode = columns[0].Trim(); // Assuming the airport code is in the first column
+						this.AirportCodes.Add(airportCode);
+					}
 
-			}
+				}
+			
+		
 
 		}
 
 		private void ListDayOfFlight()
 		{
-			this.DayOfFlight.Clear();
 
+			this.DayOfFlight.Clear();
 			this.DayOfFlight.Add("Any");
 			this.DayOfFlight.Add("Monday");
 			this.DayOfFlight.Add("Tuesday");
@@ -198,6 +189,7 @@ namespace Traveless
 			this.DayOfFlight.Add("Saturday");
 			this.DayOfFlight.Add("Sunday");
 
+		
 		}
 
 
@@ -397,49 +389,63 @@ namespace Traveless
 
 		private void ClickReservation(object sender, EventArgs e)
 		{
-			//Input values
-			string name;
-			string citizenship;
 
-			if (string.IsNullOrEmpty(addNameToReservation.Text) == false)
-			{
-				name = addNameToReservation.Text;
-			}
-			else
-			{
-				name = "";
-			}
+			
+	
+				//Input values
+				string name;
+				string citizenship;
 
-			if(string.IsNullOrEmpty(addCitizenshipToReservation.Text) == false)
-			{
-				citizenship = addCitizenshipToReservation.Text;
+		
+				if (string.IsNullOrEmpty(addNameToReservation.Text) == false)
+				{
+					name = addNameToReservation.Text;
+				}
+			
+			
+				else
+				{
+					DisplayAlert("Error", "The name field is empty. Please enter your name.", "Ok");
 
-			}
-			else
-			{
-				citizenship = "";
-			}
+					name = "";
 
-			GenerateRandomCode();
+					//throw new InvalidNameException("Name field is empty or null. Enter a value.");
 
-			//Display the generated reservation code in your UI
-			if (RandomizedReservationCode.Count > 0)
-			{
-				string reservationCode = RandomizedReservationCode[0]; // Assuming you want to display the first generated code
-				reservationCodeLabel.Text =  reservationCode;
+				}
+			
 
-			}
+				if (string.IsNullOrEmpty(addCitizenshipToReservation.Text) == false)
+				{
+					citizenship = addCitizenshipToReservation.Text;
 
-			// Display the generated reservation code in UI
+				}
+				else
+				{
+					DisplayAlert("Error", "The citizenship field is empty. Please enter your citizenship.", "Ok");
 
-			MakeReservation();
-			if (AllReservations.Count >0)
-			{
-				Reservation madeReservation = AllReservations[0]; // Get the latest reservation (assuming it's the first one in the list)
-				madeReservationLabel.Text = "Reservation details: " + madeReservation;
+					citizenship = "";
+					//throw new InvalidCitizenshipException("Citizenship field is empty or null. Enter a value.");
 
-			}
+				}
 
+				if (string.IsNullOrEmpty(addNameToReservation.Text) == false && string.IsNullOrEmpty(citizenship) == false)
+				{
+
+					//Display the generated reservation code in your UI
+					if (RandomizedReservationCode.Count > 0)
+					{
+						string reservationCode = RandomizedReservationCode[0]; // Assuming you want to display the first generated code
+						reservationCodeLabel.Text = reservationCode;
+
+					}
+
+					// Display the generated reservation code in UI
+
+					MakeReservation();
+
+				}
+			
+			
 
 		}
 
@@ -467,40 +473,53 @@ namespace Traveless
 
 		private void MakeReservation()
 		{
-			//Clear all reservations each time user refreshes page
-			AllReservations.Clear();
-			
-			//User's inputs to make reservation: reservation code, name, citizenship and combine it with flight information
-			string reservationCode = reservationCodeLabel.Text;
-			string name = addNameToReservation.Text;
-			string citizenship = addCitizenshipToReservation.Text;
 
-			if (!string.IsNullOrEmpty(reservationCode) && !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(citizenship))
+			try
 			{
-				Flight selectedFlightFromPicker = GetSelectedFlight();
+				//Clear all reservations each time user refreshes page
+				AllReservations.Clear();
 
-				if (selectedFlightFromPicker != null)
+				//User's inputs to make reservation: reservation code, name, citizenship and combine it with flight information
+				string reservationCode = reservationCodeLabel.Text;
+				string name = addNameToReservation.Text;
+				string citizenship = addCitizenshipToReservation.Text;
+
+				if (!string.IsNullOrEmpty(reservationCode) && !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(citizenship))
 				{
+					Flight selectedFlightFromPicker = GetSelectedFlight();
 
-					Reservation reservation = new Reservation();
+					if (selectedFlightFromPicker != null)
+					{
 
-					reservation.ReservationCode = reservationCode;
-					reservation.Flight = selectedFlightFromPicker;
-					reservation.Name = name;
-					reservation.Citizenship = citizenship;
+						Reservation reservation = new Reservation();
 
-					AllReservations.Add(reservation);
+						reservation.ReservationCode = reservationCode;
+						reservation.Flight = selectedFlightFromPicker;
+						reservation.Name = name;
+						reservation.Citizenship = citizenship;
+
+						AllReservations.Add(reservation);
+
+					}
 
 				}
-			
-
-				// Clear the reservation code label
-
-				reservationCodeLabel.Text = "";
-
 			}
-		
+			catch (InvalidNameException ex)
+			{
+				DisplayAlert("Error", ex.Message, "Ok");
+			}
+			catch (InvalidCitizenshipException ex)
+			{
+				DisplayAlert("Error", ex.Message, "Ok");
+			}
+			catch (Exception ex)
+			{
+				// Handle other exceptions (if any)
+				DisplayAlert("Error", ex.Message, "Ok");
+			}
 		}
+
+
 
 		// Method to get the selected flight based on the picker selection
 		private Flight GetSelectedFlight()
